@@ -24,10 +24,22 @@ define(function (require) {
     /**
      * 获取数据
      *
+     * @param {string} url url
+     * @param {Object} query 请求参数
+     *
      * @public
      */
-    Model.prototype.get = function (url, data) {
-        return ejson.get(url, data);
+    Model.prototype.get = function (url, query) {
+        var model = this;
+        var promise = ejson.get(url, query);
+        promise.then(function (data) {
+            model.fire('ajax', {
+                url: url,
+                query: query,
+                data: data
+            });
+        });
+        return promise;
     };
 
     return Model;

@@ -6,19 +6,17 @@
 
 define(function (require) {
 
-    var cache = require('./cache');
-
     var defaultOptions = {
         timeout: 4000,
         data: {
             pjax: 1
         },
-        cached: false,
         dataType: 'html',
         beforeSend: function(xhr) {
             xhr && xhr.setRequestHeader('X-PJAX', true);
         }
     };
+
     var pjax = {};
 
     function getRealUrl(url) {
@@ -33,20 +31,6 @@ define(function (require) {
         this.fire('pjax:before', {
             options: options
         });
-
-        // 默认使用sessionstorate进行cache
-        if (options.cached) {
-            var data = cache.session.get(options.url);
-            if (data) {
-                var deferred = $.Deferred();
-                deferred.resolve(data);
-                pjax.fire('pjax:success', {
-                    cache: true,
-                    data: data
-                });
-                return deferred;
-            }
-        }
 
         var promise = $.ajax(options);
         promise.then(function (data) {

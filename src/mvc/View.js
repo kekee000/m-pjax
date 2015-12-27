@@ -18,15 +18,16 @@ define(function (require) {
         var type;
         var selector;
         var fn;
-        var events = view.domEvents;
-        Object.keys(events).forEach(function (name) {
-            fn = events[name];
-            events[name] = true;
-            name = name.split(':');
-            type = name[0].trim();
-            selector = name[1] ? name[1].trim() : undefined;
-            view.addEvent(type, selector, fn);
-        });
+        if (view.domEvents) {
+            Object.keys(events).forEach(function (name) {
+                fn = view.domEvents[name];
+                name = name.split(':');
+                type = name[0].trim();
+                selector = name[1] ? name[1].trim() : undefined;
+                view.addEvent(type, selector, fn);
+            });
+            delete view.domEvents;
+        }
     }
 
     /**
@@ -41,9 +42,6 @@ define(function (require) {
     function View(options) {
         options = options || {};
         Abstract.call(this, options);
-
-        // 由于domEvents可能会通过模板创建，这里复制一份，防止修改
-        this.domEvents = $.extend({}, this.domEvents);
         this.init();
     }
 
@@ -73,8 +71,6 @@ define(function (require) {
         if (this.className) {
             this.main.addClass(this.className);
         }
-
-        this.fire('beforerender');
     };
 
     /**
@@ -138,15 +134,6 @@ define(function (require) {
      */
     View.prototype.dispose = function () {
         this.fire('dispose');
-
-        // 解除事件绑定, 这里会把所有相关的事件都给解除
-        Object.keys(this.domEvents).forEach(function (name) {
-            name = name.split(':');
-            type = name[0].trim();
-            selector = name[1] ? name[1].trim() : undefined;
-            this.main.off(type, selector);
-        });
-
         // 解除相关控件的引用
         if (this.controls) {
             Object.keys(this.controls).forEach(function (name) {
@@ -159,9 +146,12 @@ define(function (require) {
         }
 
         this.un();
+
+        // 解除事件绑定, 这里会把所有相关的事件都给解除
+        this.main.off();
         // 解除元素引用
+        this.main.remove();
         this.main = null;
-        this.domEvents = null;
     };
 
     /**
@@ -170,6 +160,7 @@ define(function (require) {
      * @public
      */
     View.prototype.sleep = function () {
+        this.main.hide();
         this.fire('sleep');
     };
 
@@ -179,6 +170,7 @@ define(function (require) {
      * @public
      */
     View.prototype.wakeup = function () {
+        this.main.show();
         this.fire('wakeup');
     };
 

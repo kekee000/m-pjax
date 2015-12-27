@@ -28,8 +28,7 @@ define(function (require) {
 
     function loadPjax(config) {
         return pjax.request({
-            url: config.url,
-            cached: config.cached && !config.options.noCache
+            url: config.url
         });
     }
 
@@ -52,8 +51,12 @@ define(function (require) {
         if (!action) {
             var enterAction = function (actionOptions) {
                 action = createAction(actionOptions);
-                action.enter(config.path, config.query, config.options, viewport.main);
+                action.enter(config.path, config.query, config.options, viewport.current);
                 action.ready();
+                if (config.cached) {
+                    cachedAction[config.path] = action;
+                }
+
                 deferred.resolve(action);
             };
 
@@ -115,6 +118,14 @@ define(function (require) {
                 }
             }
 
+            // action 不加载pjax的情况:
+            // 配置的pjax不等于空
+            // action配置缓存，并且没有强制刷新
+            if (false === config.pjax || (config.cached && cachedAction[config.path]) && !config.options.noCache) {
+                loadAction(config).then(finishLoadAction, errorLoadAction);
+                return;
+            }
+
             // 如果pjax加载出错，则保留当前的action可用
             // 如果action加载出错，则没办法，页面挂掉
             loadPjax(config).then(function (html) {
@@ -131,13 +142,13 @@ define(function (require) {
      * 路由导向
      *
      * @inner
-     * @param {option} config 路由配置
+     * @param {option} route 路由配置
      * @return {Function}
      */
-    function routeTo(config) {
+    function routeTo(route) {
         return function (path, query, params, url, options, done) {
             // 设置当前的路由信息
-            var config = $.extend({}, config);
+            var config = $.extend({}, route);
             config.path = path;
             config.query = query;
             config.options = options;

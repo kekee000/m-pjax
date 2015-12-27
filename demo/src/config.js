@@ -5,7 +5,6 @@
 
 define([
     {path: '/index.html', action: 'index', pjax: false},
-    {path: '/router', action: 'router'},
-    {path: '/pjax', action: 'pjax'},
-    {path: '/pjax/subpage', action: 'pjax/subpage'}
+    {path: '/router', action: 'router', cached: true},
+    {path: '/pjax', action: 'pjax'}
 ]);

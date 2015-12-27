@@ -29,7 +29,7 @@ define(function (require) {
 
                 name = items[1] && items[1].trim();
                 if (item && abs[item] && name) {
-                    abs[item].on(name, bind(fn, abs));
+                    abs[item].on(name, $.proxy(fn, abs));
                 }
             }
         });

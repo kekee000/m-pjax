@@ -125,16 +125,6 @@ define(function (require) {
     };
 
     /**
-     * 页面呈现完成
-     * 业务逻辑处理的主要入口
-     *
-     * @public
-     */
-    Action.prototype.complete = function () {
-        this.fire('complete');
-    };
-
-    /**
      * 页面休眠
      *
      * @public

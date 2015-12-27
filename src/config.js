@@ -20,6 +20,14 @@ define({
      * @type {Object}
      */
     viewport: {
+
+        /**
+         * 当前view的类名称
+         *
+         * @type {string}
+         */
+        className: '',
+
         /**
          * 默认关闭转场效果
          *
