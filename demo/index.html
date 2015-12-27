@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="format-detection" content="telephone=no, email=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <title></title>
+</head>
+
+<body>
+
+    <dl>
+        <dt>站内URL</dt>
+        <dd><a href="router">router</a></dd>
+        <dd><a href="/demo/pjax">/demo/pjax</a></dd>
+        <dd><a href="/demo/pjax?aaa=aaa">/demo/pjax?aaa=aaa</a></dd>
+        <dd><a href="/demo/pjax?bbb=bbb">/demo/pjax?bbb=bbb</a></dd>
+        <dd><a href="/demo/pjax?bbb=bbb#ccc">/demo/pjax?bbb=bbb#ccc</a></dd>
+        <dd><a href="/demo/pjax/subpage">/demo/pjax/subpage</a></dd>
+
+        <dt>站外URL</dt>
+        <dd><a href="../">../</a></dd>
+        <dd><a href="out" target="_blank">out</a></dd>
+        <dd><a href="/aaa">/aaa</a></dd>
+    </dl>
+
+    <div id="viewport" class="result-op">
+        index
+    </div>
+    <script src="http://s1.bdstatic.com/r/www/cache/ecom/esl/2-0-6/esl.js"></script>
+    <script src="http://s1.bdstatic.com/r/www/cache/biz/ecom/cityplan/zepto.min.js"></script>
+    <script>
+    require.config({
+        baseUrl: './src',
+        packages: [
+            {
+                name: 'm-pjax',
+                location: '../../src',
+                main: 'main'
+            }
+        ]
+    });
+    </script>
+    <script>
+        require(['app']);
+    </script>
+</body>
+</html>
