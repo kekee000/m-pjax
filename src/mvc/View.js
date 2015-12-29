@@ -163,8 +163,8 @@ define(function (require) {
      * @public
      */
     View.prototype.sleep = function () {
-        this.main.hide();
         this.fire('sleep');
+        this.main.hide();
     };
 
     /**
@@ -173,8 +173,8 @@ define(function (require) {
      * @public
      */
     View.prototype.wakeup = function () {
-        this.main.show();
         this.fire('wakeup');
+        this.main.show();
     };
 
     return View;

@@ -20,6 +20,7 @@ define(function (require) {
     })
     // 进入action操作，此处可以绑定action的数据
     .on('enteraction', function (e) {
+        console.log(e);
         e.action.model.data = window.ACTION_DATA;
         delete window.ACTION_DATA;
     });

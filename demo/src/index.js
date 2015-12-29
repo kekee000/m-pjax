@@ -18,8 +18,6 @@ define(function (require) {
             'sleep': log,
             'ready': log,
             'view:dispose': log,
-            'view:sleep': log,
-            'view:wakeup': log,
             'view:ready': function () {
                 console.log(this.model.data);
             },

@@ -12,7 +12,15 @@ define(function (require) {
     var cachedAction = {};
     var current = {};
 
-
+    /**
+     * 根据action配置创建action
+     * 规则如下：
+     * 如果配置带有constructor则为自己mod的action直接创建
+     * 否则用默认的constructor创建
+     *
+     * @param  {Object} actionOptions action配置
+     * @return {Action}
+     */
     function createAction(actionOptions) {
         var Constructor;
         if (actionOptions && actionOptions.constructor !== Object) {
@@ -25,15 +33,48 @@ define(function (require) {
         return new Constructor(actionOptions);
     }
 
+    /**
+     * 加载pjax页面
+     *
+     * @param  {Object} config 配置
+     * @param  {string} config.url 请求地址
+     * @param  {Object=} config.data 请求参数
+     * @return {promise}
+     */
     function loadPjax(config) {
         return pjax.request({
             url: config.url
         });
     }
 
+
+    /**
+     * 发送框架action事件
+     *
+     * @param  {string} name   名称
+     * @param  {Action} action action
+     * @param  {route} route  路由配置
+     */
+    function fireActionEvent(name, action, route) {
+        exports.fire(name, {
+            action: action,
+            route: route
+        });
+    }
+
+
+    /**
+     * 加载action页面
+     * 规则如下：
+     * 如果配置了缓存的action则直接唤醒action
+     * 否则根据配置加载action，如果action为字符串则加载action脚本，否则
+     *
+     * @param  {Object} config route配置参数
+     * @return {promise}
+     */
     function loadAction(config) {
 
-        // 获取新Action
+        var deferred = $.Deferred();
         var action;
 
         if (config.cached) {
@@ -45,15 +86,10 @@ define(function (require) {
             }
         }
 
-        var deferred = $.Deferred();
-
         if (!action) {
             var enterAction = function (actionOptions) {
                 action = createAction(actionOptions);
-                exports.fire('enteraction', {
-                    action: action,
-                    route: config
-                });
+                fireActionEvent('enteraction', action, config);
                 action.enter(config.path, config.query, config.options, viewport.current);
                 action.ready();
                 if (config.cached) {
@@ -63,7 +99,10 @@ define(function (require) {
                 deferred.resolve(action);
             };
 
-            if (typeof config.action === 'string') {
+            if (!config.action) {
+                enterAction();
+            }
+            else if (typeof config.action === 'string') {
                 require([config.action], enterAction);
             }
             else {
@@ -87,29 +126,24 @@ define(function (require) {
         //     如果path同当前的action不一致，则注销当前action，加载path指定的action
         //     如果当前action被缓存，则调用wakeup方法唤醒
 
-        function finishLoadAction(action) {
+        var finishLoadAction = function (action) {
             if (current.action && !current.config.cached) {
                 current.action.dispose();
             }
 
             current.action = action;
             current.config = config;
-            exports.fire('afterload', {
-                action: current.action,
-                route: current.config
-            });
+            fireActionEvent('afterload', action, config);
             finishLoad();
         }
 
-        function errorLoadAction() {
-            exports.fire('errorload');
+        var errorLoadAction = function () {
+            fireActionEvent('errorload', null, config);
             finishLoad();
         }
 
-        exports.fire('beforeload', {
-            action: current.action,
-            route: current.config
-        });
+
+        fireActionEvent('beforeload', current.action, current.config);
 
         // 首屏加载
         if (!current.action) {

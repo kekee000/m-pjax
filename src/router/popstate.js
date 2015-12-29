@@ -6,8 +6,8 @@
 
 define(function (require) {
 
-    var URL = require('./URL');
-    var path = require('./path');
+    var URL = require('../URL');
+    var path = require('../util/path');
     var globalConfig;
     var applyHandler;
     var curLocation;

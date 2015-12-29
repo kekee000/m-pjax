@@ -8,4 +8,5 @@ define([
     {path: '/list.html', action: 'list'},
     {path: '/intro.html', action: 'intro'},
     {path: '/cached.html', action: 'cached', cached: true},
+    {path: '/pjax.html', cached: true}
 ]);

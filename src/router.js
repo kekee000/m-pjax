@@ -23,7 +23,7 @@ define(function (require) {
         root: ''
     };
 
-    var controller = require('./util/popstate');
+    var controller = require('./router/popstate');
 
     /**
      * 路由规则

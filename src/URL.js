@@ -6,7 +6,7 @@
 
 define(function (require) {
 
-    var parseUrl = require('./uri-parser');
+    var parseUrl = require('./util/uri-parser');
     var DefaultURL = window.URL || window.webkitURL;
 
 
