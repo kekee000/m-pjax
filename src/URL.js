@@ -118,6 +118,11 @@ define(function (require) {
     };
 
     URL.stringifyQuery = function (query) {
+
+        if (!query) {
+            return '';
+        }
+
         var str = [];
         var item;
 

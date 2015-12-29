@@ -19,6 +19,12 @@ define(function (require) {
             'ready': log,
             'view:dispose': log,
             'view:ready': function () {
+                var me = this;
+                this.view.addEvent('click', '.redirect', function () {
+                    me.redirect('cached.html?query', {
+                        cached: 1
+                    });
+                });
                 console.log(this.model.data);
             },
             'view:dispose': log,

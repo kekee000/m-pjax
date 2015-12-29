@@ -12,6 +12,8 @@ define(function (require) {
     var applyHandler;
     var curLocation;
 
+    var SUPPORT_STATE = !!(history.pushState && history.replaceState);
+
     /**
      * url忽略root
      *
@@ -86,7 +88,10 @@ define(function (require) {
      * @return {URL}
      */
     function createURL(url, query) {
-        return location.protocol + '//' + location.host + url + '?' + URL.stringifyQuery(query);
+        if (query) {
+            url += (url.indexOf('?') >= 0 ? '&' : '?') + URL.stringifyQuery(query);
+        }
+        return location.protocol + '//' + location.host + url;
     }
 
     /**
@@ -197,8 +202,12 @@ define(function (require) {
      * @param {Function} fn 调用路由处理器
      */
     exports.init = function (config, fn) {
-        window.addEventListener('popstate', monitor, false);
-        document.body.addEventListener('click', hackClick, false);
+
+        if (SUPPORT_STATE) {
+            window.addEventListener('popstate', monitor, false);
+            document.body.addEventListener('click', hackClick, false);
+        }
+
         applyHandler = fn;
         globalConfig = config;
         monitor();
@@ -217,7 +226,7 @@ define(function (require) {
      */
     exports.redirect = function (url, query, options) {
         url = path.resolve(curLocation.path, url);
-        if (isOutOfRoot(url)) {
+        if (isOutOfRoot(url) || !SUPPORT_STATE) {
             return redirectOut(createURL(url, query));
         }
 
@@ -238,7 +247,7 @@ define(function (require) {
         options = options || {};
 
         url = path.resolve(curLocation.path, url);
-        if (isOutOfRoot(url)) {
+        if (isOutOfRoot(url) || !SUPPORT_STATE) {
             return redirectOut(createURL(url, query));
         }
 
