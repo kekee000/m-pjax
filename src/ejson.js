@@ -42,38 +42,35 @@ define(function (require) {
         ERROR: ejsonError
     };
 
-    function successHandler(data) {
-        if (data.status === 0) {
-            exports.fire('ajax:success', {
-                data: data.data
-            });
-
-            deferred.resolve(data.data);
-        }
-        else {
-            exports.fire('ajax:error', {
-                data: data
-            });
-            deferred.reject(data);
-        }
-    }
-
-    function errorHandler(data) {
-        deferred.reject({
-            status: ejsonError.ERROR,
-            statusInfo: data
-        });
-    }
-
     function request(options) {
         exports.fire('ajax:before', {
             options: options
         });
 
         var deferred = $.Deferred();
-        $.ajax(options).done(successHandler).fail(errorHandler);
-        return deferred.promise();
+        $.ajax(options).done(function (data) {
+            if (data.status === 0) {
+                exports.fire('ajax:success', {
+                    data: data.data
+                });
+
+                deferred.resolve(data.data);
+            }
+            else {
+                exports.fire('ajax:error', {
+                    data: data
+                });
+                deferred.reject(data);
+            }
+        }).fail(function (data) {
+            deferred.reject({
+                status: ejsonError.ERROR,
+                statusInfo: data
+            });
+        });
+
+        return deferred;
     }
 
-    return exports;
+    return require('./observable').mixin(exports);
 });

@@ -19,8 +19,8 @@ define(function (require) {
         var selector;
         var fn;
         if (view.domEvents) {
-            Object.keys(events).forEach(function (name) {
-                fn = view.domEvents[name];
+            Object.keys(view.domEvents).forEach(function (name) {
+                fn = $.proxy(view.domEvents[name], view);
                 name = name.split(':');
                 type = name[0].trim();
                 selector = name[1] ? name[1].trim() : undefined;
@@ -85,6 +85,15 @@ define(function (require) {
     };
 
     /**
+     * 重新加载页面
+     *
+     * @public
+     */
+    View.prototype.refresh = function () {
+        this.fire('refresh');
+    };
+
+    /**
      * 选取视图中的DOM元素
      *
      * @public
@@ -106,10 +115,6 @@ define(function (require) {
      * @param {function} fn 事件处理函数
      */
     View.prototype.addEvent = function (type, selector, fn) {
-        var eventer = type + ':' + selector;
-        if (!this.domEvents[eventer]) {
-            this.domEvents[eventer] = true;
-        }
         this.main.on(type, selector, fn);
     };
 
@@ -148,9 +153,7 @@ define(function (require) {
         this.un();
 
         // 解除事件绑定, 这里会把所有相关的事件都给解除
-        this.main.off();
-        // 解除元素引用
-        this.main.remove();
+        this.main.off().remove();
         this.main = null;
     };
 

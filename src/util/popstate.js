@@ -86,7 +86,7 @@ define(function (require) {
      * @return {URL}
      */
     function createURL(url, query) {
-        return location.hostName + url + '?' + URL.stringifyQuery(query);
+        return location.protocol + '//' + location.host + url + '?' + URL.stringifyQuery(query);
     }
 
     /**
@@ -178,7 +178,13 @@ define(function (require) {
         var href = getLink(target);
         if (href) {
             e.preventDefault();
-            redirect(href);
+            var options;
+            var redirectType;
+            if (redirectType = target.getAttribute('data-redirect')) {
+                options = {};
+                options[redirectType] = 1;
+            }
+            redirect(href, options);
         }
     }
 

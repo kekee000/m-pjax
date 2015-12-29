@@ -12,5 +12,13 @@ define(function (require) {
         }
     };
 
+    config.view = {
+        events: {
+            ready: function () {
+                this.find('.random').html(Math.random());
+            }
+        }
+    }
+
     return config;
 });

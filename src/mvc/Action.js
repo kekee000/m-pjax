@@ -92,6 +92,7 @@ define(function (require) {
         this.url = url;
         this.query = $.extend({}, query);
         this.fire('refresh');
+        this.view.refresh();
     };
 
     /**
@@ -122,6 +123,15 @@ define(function (require) {
     Action.prototype.ready = function () {
         this.fire('ready');
         this.view.ready();
+    };
+
+    /**
+     * 页面跳转
+     *
+     * @public
+     */
+    Action.prototype.redirect = function () {
+        require('../router').redirect(arguments[0], arguments[1], arguments[2]);
     };
 
     /**

@@ -11,15 +11,6 @@ exports.directoryIndexes = true;
 exports.documentRoot = require('path').dirname(__dirname);
 exports.getLocations = function () {
     return [
-
-        {
-            location: /^\/demo\/\w+($|\?)/,
-            handler: [
-                function (context) {
-                    context.content = context.request.path;
-                }
-            ]
-        },
         {
             location: /\.css($|\?)/,
             handler: [

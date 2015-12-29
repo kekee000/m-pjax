@@ -9,7 +9,6 @@ define(function (require) {
     var viewport = require('./viewport');
     var pjax = require('./pjax');
     var Action = require('./mvc/Action');
-
     var cachedAction = {};
     var current = {};
 
@@ -51,6 +50,10 @@ define(function (require) {
         if (!action) {
             var enterAction = function (actionOptions) {
                 action = createAction(actionOptions);
+                exports.fire('enteraction', {
+                    action: action,
+                    route: config
+                });
                 action.enter(config.path, config.query, config.options, viewport.current);
                 action.ready();
                 if (config.cached) {
@@ -91,12 +94,22 @@ define(function (require) {
 
             current.action = action;
             current.config = config;
+            exports.fire('afterload', {
+                action: current.action,
+                route: current.config
+            });
             finishLoad();
         }
 
         function errorLoadAction() {
+            exports.fire('errorload');
             finishLoad();
         }
+
+        exports.fire('beforeload', {
+            action: current.action,
+            route: current.config
+        });
 
         // 首屏加载
         if (!current.action) {
@@ -128,7 +141,14 @@ define(function (require) {
 
             // 如果pjax加载出错，则保留当前的action可用
             // 如果action加载出错，则没办法，页面挂掉
+
+            exports.fire('beforepjax', {
+                config: config
+            });
             loadPjax(config).then(function (html) {
+                exports.fire('afterpjax', {
+                    config: config
+                });
                 viewport.load(config.url, {
                     html: html
                 });

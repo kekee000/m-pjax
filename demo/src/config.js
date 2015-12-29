@@ -4,7 +4,8 @@
  */
 
 define([
-    {path: '/index.html', action: 'index', pjax: false},
-    {path: '/router', action: 'router', cached: true},
-    {path: '/pjax', action: 'pjax'}
+    {path: '/index.html', action: 'index', pjax: false, cached: true},
+    {path: '/list.html', action: 'list'},
+    {path: '/intro.html', action: 'intro'},
+    {path: '/cached.html', action: 'cached', cached: true},
 ]);

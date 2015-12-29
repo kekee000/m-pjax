@@ -6,27 +6,32 @@
     <meta name="format-detection" content="telephone=no, email=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <title></title>
+    <link rel="stylesheet" type="text/css" href="src/app.css">
 </head>
 
 <body>
 
-    <dl>
-        <dt>站内URL</dt>
-        <dd><a href="/demo/index.html">/demo/index.html</a></dd>
-        <dd><a href="router">router</a></dd>
-        <dd><a href="/demo/pjax">/demo/pjax</a></dd>
-        <dd><a href="/demo/pjax?aaa=aaa">/demo/pjax?aaa=aaa</a></dd>
-        <dd><a href="/demo/pjax?bbb=bbb">/demo/pjax?bbb=bbb</a></dd>
-        <dd><a href="/demo/pjax?bbb=bbb#ccc">/demo/pjax?bbb=bbb#ccc</a></dd>
-
-        <dt>站外URL</dt>
-        <dd><a href="../">../</a></dd>
-        <dd><a href="out" target="_blank">out</a></dd>
-        <dd><a href="/aaa">/aaa</a></dd>
-    </dl>
+    <h3>viewport：</h3>
 
     <div id="viewport" class="result-op">
-        <div>index</div>
+        <div class="m-view">
+            <dl>
+                <dt>站内URL</dt>
+                <dd><a href="?force=1" data-redirect="force">当前页（force）</a></dd>
+                <dd><a href="?silent=1" data-redirect="silent">当前页（silent）</a></dd>
+                <dd><a href="javascript:history.go(0)">当前页，强刷</a></dd>
+                <dd><a href="/demo/list.html?page=1">图书列表</a></dd>
+                <dd><a href="/demo/intro.html?id=1">图书详情</a></dd>
+                <dd><a href="/demo/cached.html">缓存页面</a></dd>
+                <dt>站外URL</dt>
+                <dd><a href="../">../</a></dd>
+                <dd><a href="out" target="_blank">out</a></dd>
+                <dd><a href="http://www.baidu.com">百度</a></dd>
+            </dl>
+            <script>
+                window.ACTION_DATA = 'index数据';
+            </script>
+        </div>
     </div>
     <script src="http://s1.bdstatic.com/r/www/cache/ecom/esl/2-0-6/esl.js"></script>
     <script src="http://s1.bdstatic.com/r/www/cache/biz/ecom/cityplan/zepto.min.js"></script>

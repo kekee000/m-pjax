@@ -20,7 +20,9 @@ define(function (require) {
             'view:dispose': log,
             'view:sleep': log,
             'view:wakeup': log,
-            'view:ready': log,
+            'view:ready': function () {
+                console.log(this.model.data);
+            },
             'view:dispose': log,
             'model:ajax': log
         }

@@ -30,16 +30,7 @@ define(function (require) {
      * @public
      */
     Model.prototype.get = function (url, query) {
-        var model = this;
-        var promise = ejson.get(url, query);
-        promise.then(function (data) {
-            model.fire('ajax', {
-                url: url,
-                query: query,
-                data: data
-            });
-        });
-        return promise;
+        return ejson.get(url, query);
     };
 
     return Model;
