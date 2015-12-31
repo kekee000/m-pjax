@@ -7,7 +7,7 @@
 define(function (require) {
 
     var defaultOptions = {
-        timeout: 4000,
+        timeout: 10000,
         data: {
             pjax: 1
         },
