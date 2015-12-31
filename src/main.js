@@ -223,12 +223,14 @@ define(function (require) {
      *
      * @public
      * @param {Object} paths 路由配置
+     * @return {this}
      */
     exports.load = function (paths) {
         if (!Array.isArray(paths)) {
             paths = [paths];
         }
         this.routes = this.routes.concat(paths);
+        return this;
     };
 
     /**
@@ -237,6 +239,7 @@ define(function (require) {
      * @public
      * @param {HTMLElement} main 主元素
      * @param {Object} options 全局配置信息 完整配置参考`./config.js`
+     * @return {this}
      */
     exports.start = function (main, options) {
 
@@ -260,6 +263,7 @@ define(function (require) {
         // 启动路由
         router.start();
         delete this.routes;
+        return this;
     };
 
     /**
