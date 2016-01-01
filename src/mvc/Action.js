@@ -1,6 +1,7 @@
 /**
  * @file Action
- * @author mengke01(kekee000@gmail.com)
+ * @author  treelite(c.xinle@gmail.com),
+ *          mengke01(kekee000@gmail.com)
  */
 
 define(function (require) {

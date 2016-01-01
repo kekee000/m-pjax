@@ -48,8 +48,9 @@ define(function (require) {
         });
 
         var deferred = $.Deferred();
-        $.ajax(options).done(function (data) {
-            if (data.status === 0) {
+        var xhr = $.ajax(options).done(function (data) {
+            xhr = null;
+            if (data && data.status === 0) {
                 exports.fire('ajax:success', {
                     data: data.data
                 });
@@ -60,14 +61,22 @@ define(function (require) {
                 exports.fire('ajax:error', {
                     data: data
                 });
+
+                data = data || {};
+                data.status = data.status || ejsonError.DATA;
                 deferred.reject(data);
             }
         }).fail(function (data) {
+            xhr = null;
             deferred.reject({
-                status: ejsonError.ERROR,
+                status: data.status === 200 ? ejsonError.DATA : ejsonError.ERROR,
                 statusInfo: data
             });
         });
+
+        deferred.abort = function () {
+            xhr.abort();
+        };
 
         return deferred;
     }

@@ -112,7 +112,7 @@ define(function (require) {
     function equal(path1, path2) {
         path1 = normalize(path1);
         path2 = normalize(resolve(path2 || ''));
-        return myPath === path;
+        return path1 === path2;
     }
 
     return {
