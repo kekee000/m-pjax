@@ -33,16 +33,6 @@ define(function (require) {
     };
 
     /**
-     * 去除url中的hash
-     *
-     * @param  {string} url url字符串
-     * @return {string}
-     */
-    function getRealUrl(url) {
-        return url.indexOf('#') >= 0 ? url.slice(0, url.indexOf('#')) : url;
-    }
-
-    /**
      * 发送pajx请求
      *
      * @param  {Object} options pajx参数
@@ -54,7 +44,6 @@ define(function (require) {
      */
     function request(options) {
         options = $.extend({}, defaultOptions, options);
-        options.url = getRealUrl(options.url);
         options.data = $.extend({}, defaultData, options.data);
 
         pjax.fire('pjax:before', {
