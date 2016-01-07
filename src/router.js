@@ -95,7 +95,7 @@ define(function (require) {
         if (waitingRoute) {
             var route = $.extend({}, waitingRoute);
             waitingRoute = null;
-            apply(route.url, route.options);
+            apply(route.url.path, route.url, route.options);
         }
     }
 
@@ -299,6 +299,17 @@ define(function (require) {
         controller.dispose();
         exports.clear();
         waitingRoute = null;
+    };
+
+
+    /**
+     * 更换控制器
+     *
+     * @public
+     * @param {Object} implement 路由控制器
+     */
+    exports.controller = function (implement) {
+        controller = implement;
     };
 
     return exports;

@@ -9,7 +9,12 @@ define(function (require) {
     var parseUrl = require('./util/uri-parser');
     var DefaultURL = window.URL || window.webkitURL;
 
-
+    /**
+     * 根据字符串创建URL对象
+     *
+     * @param  {string|Object} url url字符串
+     * @return {URL} URL对象
+     */
     function createURL(url) {
         if (typeof url === 'string' || url instanceof String) {
             url = new URL(url);
@@ -17,12 +22,19 @@ define(function (require) {
         return url;
     }
 
+
+    /**
+     * URL对象构造函数
+     *
+     * @constructor
+     * @param {string} url url字符串
+     */
     function URL(url) {
         var data;
         if (DefaultURL) {
             var u = new DefaultURL(url);
             data = {
-                scheme: u.protocol.slice(0, u.protocol.length - 1),
+                scheme: u.protocol.slice(0, -1),
                 username: u.username,
                 password: u.password,
                 host: u.host,
@@ -35,11 +47,17 @@ define(function (require) {
         else {
             data = parseUrl(url);
         }
+
         $.extend(this, data);
         this.src = url;
     }
 
-
+    /**
+     * 判断两个url是否相等
+     *
+     * @param  {string|URL} url url字符串或者对象
+     * @return {boolean}
+     */
     URL.prototype.equal = function (url) {
         if (this.src === url || this.src === url.src) {
             return true;
@@ -56,6 +74,12 @@ define(function (require) {
             && this.fragment === url.fragment;
     };
 
+    /**
+     * 判断两个url是否同源
+     *
+     * @param  {string|URL} url url字符串或者对象
+     * @return {boolean}
+     */
     URL.prototype.equalOrigin = function (url) {
         if (this.src === url || this.src === url.src) {
             return true;
@@ -69,6 +93,12 @@ define(function (require) {
             && this.port === url.port;
     };
 
+    /**
+     * 判断两个url是否带Query相等
+     *
+     * @param  {string|URL} url url字符串或者对象
+     * @return {boolean}
+     */
     URL.prototype.equalWithQuery = function (url) {
         url = createURL(url);
         return this.equalOrigin(url)
@@ -76,20 +106,32 @@ define(function (require) {
             && this.query === url.query;
     };
 
-    URL.prototype.equalWithFragment = function (url) {
-        url = createURL(url);
-        return this.equalWithQuery(url)
-            && this.fragment === url.fragment;
-    };
-
+    /**
+     * 获取当前url的query对象
+     *
+     * @return {Object} query对象
+     */
     URL.prototype.getQuery = function () {
         return URL.parseQuery(this.query);
     };
 
+    /**
+     * 获取url字符串
+     *
+     * @return {string}
+     */
     URL.prototype.toString = function () {
         return this.src;
     };
 
+
+    /**
+     * 解析URL的querystring字符串
+     *
+     * @public
+     * @param  {string} queryString query字符串
+     * @return {Object} 解析后对象
+     */
     URL.parseQuery = function (queryString) {
         var key;
         var value;
@@ -117,6 +159,13 @@ define(function (require) {
         return res;
     };
 
+    /**
+     * URL的query对象转化为字符串
+     *
+     * @public
+     * @param  {Object} query query对象
+     * @return {string} querystring字符串
+     */
     URL.stringifyQuery = function (query) {
 
         if (!query) {

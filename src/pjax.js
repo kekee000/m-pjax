@@ -37,10 +37,6 @@ define(function (require) {
             pjax.fire('pjax:success', {
                 data: data
             });
-
-            if (options.cache) {
-                cache.session.set(options.url, data);
-            }
         }, function (data) {
             pjax.fire('pjax:error', {
                 data: data

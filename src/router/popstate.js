@@ -38,7 +38,7 @@ define(function (require) {
      * @param {Object} options 参数
      */
     function callHandler(url, options) {
-        if (curLocation && url.equalWithFragment(curLocation) && !options.force) {
+        if (curLocation && url.equalWithQuery(curLocation) && !options.force) {
             return;
         }
 
@@ -120,7 +120,7 @@ define(function (require) {
      */
     function redirect(url, options) {
         options = options || {};
-        if (!curLocation.equalWithFragment(url) && !options.silent) {
+        if (!curLocation.equal(url) && !options.silent) {
             history.pushState(options, options.title, url);
         }
         callHandler(url, options);
@@ -208,6 +208,12 @@ define(function (require) {
             document.body.addEventListener('click', hackClick, false);
         }
 
+        // 使用默认配置的情况
+        if (typeof config === 'function') {
+            fn = config;
+            config = {};
+        }
+
         applyHandler = fn;
         globalConfig = config;
         monitor();
@@ -225,12 +231,12 @@ define(function (require) {
      * @return {*}
      */
     exports.redirect = function (url, query, options) {
-        url = path.resolve(curLocation.path, url);
+        url = path.resolve(curLocation.path, url || '');
         if (isOutOfRoot(url) || !SUPPORT_STATE) {
             return redirectOut(createURL(url, query));
         }
 
-        redirect(new URL(createURL(url, query)));
+        redirect(new URL(createURL(url, query)), options);
     };
 
     /**
