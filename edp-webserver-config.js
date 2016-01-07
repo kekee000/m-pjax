@@ -1,9 +1,9 @@
 // 端口
-exports.port = 8848;
+exports.port = 8000;
 
 // 网站根目录
-exports.documentRoot = process.cwd();
-
+exports.documentRoot = __dirname;
+exports.directoryIndexes = true;
 exports.getLocations = function () {
     return [
         {

@@ -42,11 +42,29 @@ define(function (require) {
      */
     function View(options) {
         options = options || {};
+        // 这里的controls在views中会被改变，复制一份
+        if (options.controls) {
+            options.controls = Array.isArray(options.controls)
+                ? options.controls.slice(0)
+                : $.extend({}, options.controls);
+        }
+
         Abstract.call(this, options);
         this.init();
     }
 
     inherits(View, Abstract);
+
+    /**
+     * 初始化
+     *
+     * @public
+     */
+    View.prototype.init = function () {
+        this.main && this.setMain(this.main);
+        Abstract.prototype.init.call(this);
+    };
+
 
     /**
      * 设置容器元素
@@ -142,8 +160,9 @@ define(function (require) {
         this.fire('dispose');
         // 解除相关控件的引用
         if (this.controls) {
-            Object.keys(this.controls).forEach(function (name) {
-                var ctl = this.controls[name];
+            var controls = this.controls;
+            Object.keys(controls).forEach(function (name) {
+                var ctl = controls[name];
                 if (typeof ctl.dispose === 'function') {
                     ctl.dispose();
                 }

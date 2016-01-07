@@ -42,6 +42,16 @@ define(function (require) {
         ERROR: ejsonError
     };
 
+    /**
+     * 发送ajax请求
+     *
+     * @param  {Object} options pajx参数
+     * @param  {string} options.url 请求url
+     * @param  {Object=} options.data 请求数据
+     * @param  {method=} options.method 发送方式，post or get
+     * @param  {number=} options.timeout 超时时间
+     * @return {promise}
+     */
     function request(options) {
         exports.fire('ajax:before', {
             options: options

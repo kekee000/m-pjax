@@ -11,6 +11,11 @@ define(function (require) {
     require('./ejson.spec');
     require('./pjax.spec');
 
+    require('./mvc/Abstract.spec');
+    require('./mvc/Action.spec');
+    require('./mvc/Model.spec');
+    require('./mvc/View.spec');
+
     require('./URL.spec');
     require('./router/popstate.spec');
     require('./router.spec');

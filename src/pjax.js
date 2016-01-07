@@ -8,27 +8,56 @@ define(function (require) {
 
     var defaultOptions = {
         timeout: 10000,
-        data: {
-            pjax: 1
-        },
         dataType: 'html',
         beforeSend: function(xhr) {
             xhr && xhr.setRequestHeader('X-PJAX', true);
         }
     };
 
-    var pjax = {};
+    var defaultData = {
+        pjax: 1
+    };
 
+    var pjax = {
+
+        get: function (url, data) {
+            var options = {
+                url: url,
+                method: 'GET',
+                data: data
+            };
+            return request(options);
+        },
+
+        request: request
+    };
+
+    /**
+     * 去除url中的hash
+     *
+     * @param  {string} url url字符串
+     * @return {string}
+     */
     function getRealUrl(url) {
         return url.indexOf('#') >= 0 ? url.slice(0, url.indexOf('#')) : url;
     }
 
-    pjax.request = function (options) {
+    /**
+     * 发送pajx请求
+     *
+     * @param  {Object} options pajx参数
+     * @param  {string} options.url 请求url
+     * @param  {Object=} options.data 请求数据
+     * @param  {method=} options.method 发送方式，post or get
+     * @param  {number=} options.timeout 超时时间
+     * @return {promise}
+     */
+    function request(options) {
         options = $.extend({}, defaultOptions, options);
         options.url = getRealUrl(options.url);
-        options.data = $.extend({}, defaultOptions.data, options.data);
+        options.data = $.extend({}, defaultData, options.data);
 
-        this.fire('pjax:before', {
+        pjax.fire('pjax:before', {
             options: options
         });
 

@@ -9,12 +9,23 @@ define(function (require) {
 
     describe('PJAX', function () {
 
-        it('pjax success', function (done) {
+        it('pjax request success', function (done) {
             pjax.request({
                 url: '/echo',
                 data: {
                     content: 'pjax'
                 }
+            }).then(
+                function (data) {
+                    expect(data).toEqual('pjax');
+                    done();
+                }
+            );
+        });
+
+        it('pjax get success', function (done) {
+            pjax.get('/echo', {
+                content: 'pjax'
             }).then(
                 function (data) {
                     expect(data).toEqual('pjax');
