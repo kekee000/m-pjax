@@ -62,6 +62,7 @@ define(function (require) {
             xhr = null;
             if (data && data.status === 0) {
                 exports.fire('ajax:success', {
+                    options: options,
                     data: data.data
                 });
 
@@ -69,6 +70,7 @@ define(function (require) {
             }
             else {
                 exports.fire('ajax:error', {
+                    options: options,
                     data: data
                 });
 
@@ -85,7 +87,7 @@ define(function (require) {
         });
 
         deferred.abort = function () {
-            xhr.abort();
+            xhr && xhr.abort();
         };
 
         return deferred;

@@ -203,11 +203,6 @@ define(function (require) {
      */
     exports.init = function (config, fn) {
 
-        if (SUPPORT_STATE) {
-            window.addEventListener('popstate', monitor, false);
-            document.body.addEventListener('click', hackClick, false);
-        }
-
         // 使用默认配置的情况
         if (typeof config === 'function') {
             fn = config;
@@ -216,6 +211,17 @@ define(function (require) {
 
         applyHandler = fn;
         globalConfig = config;
+
+        // 判断初始化时候是否超出控制范围，超出了则报异常
+        if (isOutOfRoot(location.pathname)) {
+            throw new Error('current path out of root');
+        }
+
+        if (SUPPORT_STATE) {
+            window.addEventListener('popstate', monitor, false);
+            document.body.addEventListener('click', hackClick, false);
+        }
+
         monitor();
     };
 

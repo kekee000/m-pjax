@@ -77,10 +77,13 @@ define(function (require) {
         var deferred = $.Deferred();
         var action;
 
+        // 如果当前aciton被缓存的话，获取缓存的action
+        // 会受到options.noCache的影响
         if (config.cached) {
             action = cachedAction[config.path];
             if (action && config.options.noCache) {
                 action.dispose();
+                fireActionEvent('leaveaction', action, config);
                 delete cachedAction[config.path];
                 action = null;
             }
@@ -90,6 +93,12 @@ define(function (require) {
             var enterAction = function (actionOptions) {
                 action = createAction(actionOptions);
                 fireActionEvent('enteraction', action, config);
+
+                // 这里设置action的config为route中配置的config
+                if (null != config.config) {
+                    action.config = config.config;
+                }
+
                 action.enter(config.path, config.query, config.options, viewport.current);
                 action.ready();
                 if (config.cached) {
@@ -129,6 +138,7 @@ define(function (require) {
         var finishLoadAction = function (action) {
             if (current.action && !current.config.cached) {
                 current.action.dispose();
+                fireActionEvent('leaveaction', current.action, current.config);
             }
 
             current.action = action;

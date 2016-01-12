@@ -12,6 +12,21 @@ define(function (require) {
 
         describe('init/dipose', function () {
 
+            it('should throw out of root', function () {
+                var error;
+                var fn = jasmine.createSpy('fn');
+                try {
+                    controller.init({
+                        root: '/outofroot'
+                    }, fn);
+                }
+                catch (e) {
+                    error = true;
+                }
+                expect(error).toBeTruthy();
+                controller.dispose();
+            });
+
             it('should apply handler with current path', function (done) {
                 var fn = jasmine.createSpy('fn');
                 history.pushState({}, document.title, '?name=treelite&w=1');

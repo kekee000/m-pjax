@@ -53,10 +53,12 @@ define(function (require) {
         var promise = $.ajax(options);
         promise.then(function (data) {
             pjax.fire('pjax:success', {
+                options: options,
                 data: data
             });
         }, function (data) {
             pjax.fire('pjax:error', {
+                options: options,
                 data: data
             });
         });

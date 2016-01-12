@@ -72,6 +72,80 @@ define(function (require) {
             proto.constructor = subClass;
             subClass.prototype = proto;
             return subClass;
+        },
+
+        /**
+         *
+         * Returns a function, that, when invoked, will only be triggered at most once
+         * during a given window of time.
+         * copy from underscore.js
+         *
+         * @param  {Function} func 节流函数
+         * @param  {number} wait 节流间隔时间
+         * @return {Function} 包裹后函数
+         */
+        throttle: function (func, wait) {
+            var context;
+            var args;
+            var timeout;
+            var result;
+            var previous = 0;
+            var later = function () {
+                previous = new Date();
+                timeout = null;
+                result = func.apply(context, args);
+            };
+            return function () {
+                var now = new Date();
+                var remaining = wait - (now - previous);
+                context = this;
+                args = arguments;
+                if (remaining <= 0) {
+                    clearTimeout(timeout);
+                    timeout = null;
+                    previous = now;
+                    result = func.apply(context, args);
+                }
+                else if (!timeout) {
+                    timeout = setTimeout(later, remaining);
+                }
+                return result;
+            };
+        },
+
+        /**
+         * Returns a function, that, as long as it continues to be invoked, will not
+         * be triggered. The function will be called after it stops being called for
+         * N milliseconds. If `immediate` is passed, trigger the function on the
+         * leading edge, instead of the trailing.
+         * during a given window of time.
+         * copy from underscore.js
+         *
+         * @param  {Function} func 去颤动函数
+         * @param  {number} wait 去颤动间隔时间
+         * @param  {boolean} immediate 是否立即调用debounce函数
+         * @return {Function}    包裹后函数
+         */
+        debounce: function (func, wait, immediate) {
+            var timeout;
+            var result;
+            return function () {
+                var context = this;
+                var args = arguments;
+                var later = function () {
+                    timeout = null;
+                    if (!immediate) {
+                        result = func.apply(context, args);
+                    }
+                };
+                var callNow = immediate && !timeout;
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+                if (callNow) {
+                    result = func.apply(context, args);
+                }
+                return result;
+            };
         }
     };
 
