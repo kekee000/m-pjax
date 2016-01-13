@@ -14,6 +14,8 @@ define(function (require) {
 
     var SUPPORT_STATE = !!(history.pushState && history.replaceState);
 
+    var exports = {};
+
     /**
      * url忽略root
      *
@@ -57,9 +59,8 @@ define(function (require) {
         if (root) {
             return url.indexOf(root) !== 0;
         }
-        else {
-            return url.indexOf('/') !== 0;
-        }
+
+        return url.indexOf('/') !== 0;
     }
 
     /**
@@ -108,7 +109,7 @@ define(function (require) {
             return redirectOut(location.href, true);
         }
 
-        url = new URL(location.href);
+        var url = new URL(location.href);
         callHandler(url, e.state || {});
     }
 
@@ -150,9 +151,6 @@ define(function (require) {
         return url;
     }
 
-    var exports = {};
-
-
     /**
      * 劫持全局的click事件
      *
@@ -192,7 +190,6 @@ define(function (require) {
             redirect(href, options);
         }
     }
-
 
     /**
      * 初始化

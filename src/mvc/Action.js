@@ -103,7 +103,6 @@ define(function (require) {
      * @param {string} url 当前的访问地址
      * @param {Object} query 查询条件
      * @param {Object} options 跳转参数
-     * @return {Promise}
      */
     Action.prototype.wakeup = function (url, query, options) {
         this.url = url;

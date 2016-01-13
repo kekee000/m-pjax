@@ -12,6 +12,10 @@ define(function (require) {
     var cachedAction = {};
     var current = {};
 
+    var exports = {
+        routes: []
+    };
+
     /**
      * 根据action配置创建action
      * 规则如下：
@@ -73,8 +77,9 @@ define(function (require) {
      * @return {promise}
      */
     function loadAction(config) {
-
+        /* eslint-disable new-cap*/
         var deferred = $.Deferred();
+        /* eslint-enable new-cap*/
         var action;
 
         // 如果当前aciton被缓存的话，获取缓存的action
@@ -145,12 +150,12 @@ define(function (require) {
             current.config = config;
             fireActionEvent('afterload', action, config);
             finishLoad();
-        }
+        };
 
         var errorLoadAction = function () {
             fireActionEvent('errorload', null, config);
             finishLoad();
-        }
+        };
 
 
         fireActionEvent('beforeload', current.action, current.config);
@@ -222,11 +227,6 @@ define(function (require) {
             tryLoadAction(config, done);
         };
     }
-
-
-    var exports = {
-        routes: []
-    };
 
     /**
      * 加载路由配置信息

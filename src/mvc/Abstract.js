@@ -6,10 +6,9 @@
 
 define(function (require) {
 
-
     /**
      * 绑定事件
-     *
+     * @param {Object} abs Abstract对象
      * @inner
      */
     function bindEvents(abs) {

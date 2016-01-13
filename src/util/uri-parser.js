@@ -17,9 +17,9 @@ define(function (require) {
         // URI组成
         // http://tools.ietf.org/html/rfc3986#section-3
         var components = [
-                'scheme', 'username', 'password', 'host',
-                'port', 'path', 'query', 'fragment'
-            ];
+            'scheme', 'username', 'password', 'host',
+            'port', 'path', 'query', 'fragment'
+        ];
 
         components.forEach(function (name) {
             res[name] = data[name] || '';

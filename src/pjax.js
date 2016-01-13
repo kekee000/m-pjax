@@ -9,7 +9,7 @@ define(function (require) {
     var defaultOptions = {
         timeout: 10000,
         dataType: 'html',
-        beforeSend: function(xhr) {
+        beforeSend: function (xhr) {
             xhr && xhr.setRequestHeader('X-PJAX', true);
         }
     };
@@ -63,7 +63,7 @@ define(function (require) {
             });
         });
         return promise;
-    };
+    }
 
     return require('./observable').mixin(pjax);
 });

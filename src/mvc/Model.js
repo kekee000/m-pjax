@@ -14,6 +14,8 @@ define(function (require) {
      * Model
      *
      * @constructor
+     * @see  Abstract
+     * @param {Object} options 参数
      */
     function Model(options) {
         Abstract.call(this, options);
@@ -25,10 +27,10 @@ define(function (require) {
     /**
      * 获取数据
      *
+     * @public
      * @param {string} url url
      * @param {Object} query 请求参数
-     *
-     * @public
+     * @return {promise}
      */
     Model.prototype.get = function (url, query) {
         return ejson.get(url, query);
@@ -37,10 +39,10 @@ define(function (require) {
     /**
      * 获取pjax数据
      *
+     * @public
      * @param {string} url url
      * @param {Object} query 请求参数
-     *
-     * @public
+     * @return {promise}
      */
     Model.prototype.getPjax = function (url, query) {
         return pjax.get(url, query);

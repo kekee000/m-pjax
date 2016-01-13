@@ -13,7 +13,7 @@ define(function (require) {
      * 绑定DOM事件
      *
      * @inner
-     * @param {View} view
+     * @param {Object} view View对象
      */
     function bindDomEvents(view) {
         var type;
@@ -70,7 +70,7 @@ define(function (require) {
      * 设置容器元素
      *
      * @public
-     * @param {HTMLElement} 视图容器元素
+     * @param {HTMLElement} ele 视图容器元素
      */
     View.prototype.setMain = function (ele) {
         this.main = $(ele);
@@ -80,7 +80,6 @@ define(function (require) {
      * 渲染视图
      *
      * @public
-     * @param {Object} data
      */
     View.prototype.enter = function () {
         if (!this.main) {
@@ -131,7 +130,7 @@ define(function (require) {
      * @public
      * @param {string} type 事件类型
      * @param {string=} selector 子元素选择器
-     * @param {function} fn 事件处理函数
+     * @param {Function} fn 事件处理函数
      */
     View.prototype.addEvent = function (type, selector, fn) {
         this.main.on(type, selector, fn);
@@ -145,7 +144,7 @@ define(function (require) {
      * @public
      * @param {string} type 事件类型
      * @param {string=} selector 子元素选择器
-     * @param {function} fn 事件处理函数
+     * @param {Function} fn 事件处理函数
      */
     View.prototype.removeEvent = function (type, selector, fn) {
         this.main.off(type, selector, fn);

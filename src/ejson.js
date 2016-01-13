@@ -21,7 +21,7 @@ define(function (require) {
             var options = {
                 url: url,
                 method: 'GET',
-                dataType: "json",
+                dataType: 'json',
                 data: data
             };
             return request(options);
@@ -31,7 +31,7 @@ define(function (require) {
             var options = {
                 url: url,
                 method: 'POST',
-                dataType: "json",
+                dataType: 'json',
                 data: data
             };
             return request(options);
@@ -57,7 +57,9 @@ define(function (require) {
             options: options
         });
 
+        /* eslint-disable new-cap*/
         var deferred = $.Deferred();
+        /* eslint-enable new-cap*/
         var xhr = $.ajax(options).done(function (data) {
             xhr = null;
             if (data && data.status === 0) {
