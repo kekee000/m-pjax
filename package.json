@@ -9,6 +9,7 @@
     "repository": "git@github.com:kekee000/m-pjax.git",
     "description": "基于zepto的pjax框架",
     "scripts": {
-        "test": "jasmine-node test/spec"
+        "test": "jasmine-node test/spec",
+        "build": "sh build.sh"
     }
 }
