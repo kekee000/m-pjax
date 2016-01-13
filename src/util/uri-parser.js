@@ -43,13 +43,13 @@ define(function (require) {
             /^([^@]+@)?([^:]+)(:\d+)?$/,
             function ($0, userInfo, host, port) {
                 if (userInfo) {
-                    userInfo = userInfo.substring(0, userInfo.legnth - 1);
+                    userInfo = userInfo.slice(0, -1);
                     userInfo = userInfo.split(':');
                     res.username = userInfo[0];
                     res.password = userInfo[1];
                 }
 
-                res.host = host;
+                res.host = host.toLowerCase();
 
                 if (port) {
                     res.port = port.substring(1);
@@ -167,7 +167,7 @@ define(function (require) {
 
         // 只有host与path
         str = str.split('/');
-        res.host = str.shift();
+        res.host = str.shift().toLowerCase();
         if (str.length > 0) {
             res.path = '/' + str.join('/');
         }
@@ -188,6 +188,10 @@ define(function (require) {
             || data instanceof String
         ) {
             data = parse(data);
+        }
+
+        if (!data.path) {
+            data.path = '/';
         }
 
         return normalize(data);

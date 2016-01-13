@@ -36,6 +36,7 @@ define(function (require) {
                 expect(url.fragment).toBe('');
 
                 url = new URL('ftp://kekee:pwd@www.baidu.com');
+                console.log(url)
                 expect(url.scheme).toBe('ftp');
                 expect(url.username).toBe('kekee');
                 expect(url.password).toBe('pwd');

@@ -31,7 +31,7 @@ define(function (require) {
      */
     function URL(url) {
         var data;
-        if (DefaultURL) {
+        if (typeof DefaultURL === 'function') {
             var u = new DefaultURL(url);
             data = {
                 scheme: u.protocol.slice(0, -1),
