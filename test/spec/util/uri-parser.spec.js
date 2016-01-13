@@ -20,7 +20,7 @@ define(function (require) {
                 expect(uri.password).toBe('');
                 expect(uri.host).toEqual(str);
                 expect(uri.port).toBe('');
-                expect(uri.path).toBe('');
+                expect(uri.path).toBe('/');
                 expect(uri.query).toBe('');
                 expect(uri.fragment).toBe('');
             });
@@ -61,7 +61,7 @@ define(function (require) {
                 expect(uri.password).toBe('');
                 expect(uri.host).toEqual('www.baidu.com');
                 expect(uri.port).toEqual('8080');
-                expect(uri.path).toBe('');
+                expect(uri.path).toBe('/');
                 expect(uri.query).toBe('');
                 expect(uri.fragment).toBe('');
             });

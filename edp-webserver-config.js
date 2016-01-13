@@ -7,6 +7,26 @@ exports.directoryIndexes = true;
 exports.getLocations = function () {
     return [
         {
+            location: /\.css($|\?)/,
+            handler: [
+                autocss()
+            ]
+        },
+        {
+            location: /\.less($|\?)/,
+            handler: [
+                file(),
+                less()
+            ]
+        },
+        {
+            location: /\.styl($|\?)/,
+            handler: [
+                file(),
+                stylus()
+            ]
+        },
+        {
             location: /\/sleep(?:\?|$)/,
             handler: [
                 function (context) {

@@ -39,7 +39,7 @@
     <script src="http://s1.bdstatic.com/r/www/cache/biz/ecom/cityplan/zepto.min.js"></script>
     <script>
     require.config({
-        baseUrl: './src',
+        baseUrl: location.pathname.slice(0, location.pathname.lastIndexOf('/demo')) + '/demo/src',
         packages: [
             {
                 name: 'm-pjax',

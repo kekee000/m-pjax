@@ -18,3 +18,10 @@ m-pjax派生自saber-firework，基本保留了saber的开发方式。
 
     edp webserver start
     open test/runner.html
+
+
+
+# demo
+
+    edp webserver start
+    open demo/index.html
