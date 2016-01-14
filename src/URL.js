@@ -31,18 +31,29 @@ define(function (require) {
      */
     function URL(url) {
         var data;
+
         if (typeof DefaultURL === 'function') {
-            var u = new DefaultURL(url);
-            data = {
-                scheme: u.protocol.slice(0, -1),
-                username: u.username,
-                password: u.password,
-                host: u.host,
-                port: u.port,
-                path: u.pathname,
-                query: u.search.slice(1),
-                fragment: u.hash.slice(1)
-            };
+            try {
+                var u = new DefaultURL(url);
+            }
+            catch (e) {}
+
+            // 有些坑货浏览器解析url错误，这里需要做下url判断
+            if(!u || !u.host) {
+                data = parseUrl(url);
+            }
+            else {
+                data = {
+                    scheme: u.protocol.slice(0, -1),
+                    username: u.username,
+                    password: u.password,
+                    host: u.host,
+                    port: u.port,
+                    path: u.pathname,
+                    query: u.search.slice(1),
+                    fragment: u.hash.slice(1)
+                };
+            }
         }
         else {
             data = parseUrl(url);
