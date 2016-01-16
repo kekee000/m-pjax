@@ -267,7 +267,8 @@ define(function (require) {
         router.config({
             path: config.path,
             index: config.index,
-            root: config.root
+            root: config.root,
+            router: config.router
         });
 
         // 启动路由

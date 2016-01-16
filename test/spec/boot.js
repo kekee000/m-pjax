@@ -18,6 +18,7 @@ define(function (require) {
 
     require('./URL.spec');
     require('./router/popstate.spec');
+    require('./router/page.spec');
     require('./router.spec');
     return {};
 });

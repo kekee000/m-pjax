@@ -1,5 +1,5 @@
 /**
- * @file pajax框架配置
+ * @file pjax框架配置
  * @author mengke01(kekee000@gmail.com)
  */
 
@@ -11,6 +11,13 @@ define({
      * @type {string}
      */
     root: '',
+
+    /**
+     * 默认的路由方式: page | popstate
+     *
+     * @type {string}
+     */
+    router: 'popstate',
 
     /**
      * 视图配置

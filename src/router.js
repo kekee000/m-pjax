@@ -20,10 +20,32 @@ define(function (require) {
          *
          * @type {string}
          */
-        root: ''
+        root: '',
+
+        /**
+         * 默认使用的路由
+         *
+         * @type {string}
+         */
+        router: 'popstate'
     };
 
-    var controller = require('./router/popstate');
+    /**
+     * 支持的路由列表
+     *
+     * @type {Object}
+     */
+    var controllers = {
+        page: require('./router/page'),
+        popstate: require('./router/popstate')
+    };
+
+    /**
+     * 当前的路由器
+     *
+     * @type {Object}
+     */
+    var controller;
 
     /**
      * 路由规则
@@ -286,6 +308,10 @@ define(function (require) {
     exports.start = function (options) {
         if (options) {
             exports.config(options);
+        }
+
+        if (!controller) {
+            controller = controllers[globalConfig.router];
         }
         controller.init(globalConfig, apply);
     };
