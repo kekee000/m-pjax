@@ -97,19 +97,15 @@ define(function (require) {
         if (!action) {
             var enterAction = function (actionOptions) {
                 action = createAction(actionOptions);
-                fireActionEvent('enteraction', action, config);
 
                 // 这里设置action的config为route中配置的config
                 if (null != config.config) {
                     action.config = config.config;
                 }
 
-                action.enter(config.path, config.query, config.options, viewport.current);
-                action.ready();
                 if (config.cached) {
                     cachedAction[config.path] = action;
                 }
-
                 deferred.resolve(action);
             };
 
@@ -148,6 +144,11 @@ define(function (require) {
 
             current.action = action;
             current.config = config;
+            // 进入action，这里action的enter和ready是同步的
+            // 增加页面转场的话这里就不是执行的了
+            fireActionEvent('enteraction', action, config);
+            action.enter(config.path, config.query, config.options, viewport.current);
+            action.ready();
             fireActionEvent('afterload', action, config);
             finishLoad();
         };
